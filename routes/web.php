@@ -25,17 +25,16 @@ Route::get('/access_file', function () {
 });
 
 Route::post('/upload', function(Request $request){
-    dd($request->audiovideo);
 
-    if($request->hasFile('audiovideo')){
-        $file = $request->file('audiovideo');
+    if($request->audiovideo){
+        $file = $request->audiovideo;
         $name = Str::random(10);
-        $fname=$name.".".$file->getClientOriginalExtension();
+        $fname=$name.".".$file->extension();
         $file->storeAs('public/videos/', $fname);
 
-        return response()->json(["status"=>true]);
+        return response()->json(["status"=>$fname]);
     }
 
-    return response()->json(["has_file"=>$request->audiovideo]);
+    return response()->json(["file_info+ "=>$request->audiovideo]);
 
 })->name("upload");
